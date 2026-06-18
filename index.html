@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Babylon's Factor — AI-native tools for builders</title>
+  <meta name="description" content="Building the next layer of tooling for developers who work alongside AI. One person, from scratch, in public." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --abyss:   #08080c;
+      --void:    #0d0d14;
+      --surface: #12121e;
+      --border:  #1e1e32;
+      --border2: #2d2d4e;
+      --purple:  #7c3aed;
+      --purple-g:#a855f7;
+      --gold:    #d97706;
+      --gold-b:  #fbbf24;
+      --white:   #f5f3ff;
+      --muted:   #6b7280;
+      --dim:     #4b5563;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--abyss);
+      color: var(--white);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--void);
+      border-bottom: 1px solid var(--border);
+      padding: 0 1.5rem;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-text { font-weight: 900; font-size: 14px; letter-spacing: .15em; text-transform: uppercase; color: var(--white); }
+    .logo-line { height: 1px; background: linear-gradient(90deg, var(--gold), transparent); margin-top: 2px; }
+    .nav-cta { display: flex; gap: 10px; align-items: center; }
+    .btn { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; font-size: 14px; padding: 8px 20px; border-radius: 8px; text-decoration: none; transition: all .15s; border: none; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, var(--purple), #4c1d95); color: var(--white); }
+    .btn-primary:hover { opacity: .85; transform: translateY(-1px); }
+    .btn-gold { background: transparent; border: 1px solid var(--gold); color: var(--gold-b); }
+    .btn-gold:hover { background: rgba(217,119,6,.12); }
+    .fund-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 700; padding: 6px 14px; border-radius: 20px;
+      background: linear-gradient(135deg, rgba(124,58,237,.15), rgba(217,119,6,.15));
+      border: 1px solid var(--gold); color: var(--gold-b); text-decoration: none;
+      transition: all .15s;
+    }
+    .fund-btn:hover { background: linear-gradient(135deg, rgba(124,58,237,.3), rgba(217,119,6,.3)); }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 1100px; margin: 0 auto;
+      padding: 100px 1.5rem 80px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; gap: 40px; padding: 60px 1.5rem 50px; }
+      .hero-visual { display: none; }
+    }
+    .label { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-b); margin-bottom: 16px; }
+    h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; color: var(--white); margin-bottom: 20px; }
+    h1 em { font-style: normal; background: linear-gradient(135deg, var(--purple-g), var(--gold-b)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { font-size: 1.1rem; color: var(--muted); margin-bottom: 36px; max-width: 480px; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* Visual block */
+    .visual-card {
+      background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 28px;
+      position: relative; overflow: hidden;
+    }
+    .visual-card::before {
+      content: ''; position: absolute; top: -40px; right: -40px; width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(124,58,237,.2) 0%, transparent 70%); border-radius: 50%;
+    }
+    .stat { margin-bottom: 20px; }
+    .stat-label { font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    .stat-value { font-size: 1.4rem; font-weight: 800; color: var(--white); }
+    .stat-value span { color: var(--gold-b); }
+    .divider { height: 1px; background: var(--border); margin: 16px 0; }
+    .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .tag { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.3); color: var(--purple-g); }
+
+    /* ── What I'm building ── */
+    .section { max-width: 1100px; margin: 0 auto; padding: 80px 1.5rem; }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; margin-bottom: 12px; }
+    .section-sub { font-size: 1rem; color: var(--muted); margin-bottom: 50px; max-width: 600px; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border2); border-radius: 14px; padding: 28px;
+      transition: border-color .2s;
+    }
+    .card:hover { border-color: var(--purple); }
+    .card-icon { font-size: 2rem; margin-bottom: 14px; }
+    .card h3 { font-size: 1.05rem; font-weight: 800; margin-bottom: 8px; color: var(--white); }
+    .card p { font-size: 0.9rem; color: var(--muted); }
+    .card-badge { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 5px; }
+    .badge-live { background: rgba(52,211,153,.15); border: 1px solid rgba(52,211,153,.3); color: #34d399; }
+    .badge-build { background: rgba(251,191,36,.1); border: 1px solid rgba(251,191,36,.25); color: var(--gold-b); }
+    .badge-next { background: rgba(124,58,237,.15); border: 1px solid rgba(124,58,237,.3); color: var(--purple-g); }
+
+    /* ── Why ── */
+    .why-block { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 50px; max-width: 800px; margin: 0 auto; }
+    .why-block p { font-size: 1.05rem; color: var(--muted); line-height: 1.8; margin-bottom: 16px; }
+    .why-block p strong { color: var(--white); }
+    .why-block p:last-child { margin-bottom: 0; }
+
+    /* ── CTA ── */
+    .cta-section { text-align: center; padding: 80px 1.5rem 100px; }
+    .cta-section h2 { margin-bottom: 16px; }
+    .cta-section p { color: var(--muted); margin-bottom: 36px; font-size: 1rem; }
+    .cta-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--void); border-top: 1px solid var(--border);
+      padding: 32px 1.5rem; text-align: center; font-size: 13px; color: var(--dim);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--gold-b); }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" fill="#0d0d14" stroke="#d97706" stroke-width="1.5"/>
+          <text x="16" y="21" text-anchor="middle" font-family="system-ui,sans-serif" font-weight="800" font-size="11" fill="#fbbf24" letter-spacing="0">B·F</text>
+        </svg>
+        <div>
+          <div class="logo-text">Babylon's Factor</div>
+          <div class="logo-line"></div>
+        </div>
+      </a>
+      <div class="nav-cta">
+        <a href="https://51-15-214-19.nip.io/donate" class="fund-btn" target="_blank" rel="noopener">♥ Fund me</a>
+        <a href="https://51-15-214-19.nip.io/" class="btn btn-primary" target="_blank" rel="noopener">Open the forge →</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section>
+    <div class="hero">
+      <div>
+        <div class="label">Building in public · One dev · No VC</div>
+        <h1>I'm building the <em>next layer</em> of tools for AI-native development</h1>
+        <p class="subtitle">
+          The way developers work with AI is being reinvented right now.
+          I'm building the plumbing, the bridges, and the operating layer
+          that makes that shift real — not just a demo.
+        </p>
+        <div class="hero-actions">
+          <a href="https://51-15-214-19.nip.io/" class="btn btn-primary" target="_blank" rel="noopener">Enter the forge →</a>
+          <a href="https://51-15-214-19.nip.io/donate" class="btn btn-gold" target="_blank" rel="noopener">♥ Support this work</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="visual-card">
+          <div class="stat">
+            <div class="stat-label">What I'm building</div>
+            <div class="stat-value">Babylon's Factor</div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat">
+            <div class="stat-label">Currently live</div>
+            <div class="stat-value"><span>3</span> products in beta</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">Dev model</div>
+            <div class="stat-value">Solo · <span>AI-augmented</span></div>
+          </div>
+          <div class="divider"></div>
+          <div class="stat-label">Focus areas</div>
+          <div class="tag-row">
+            <span class="tag">AI agents</span>
+            <span class="tag">Dev tooling</span>
+            <span class="tag">Automation</span>
+            <span class="tag">Azure DevOps</span>
+            <span class="tag">MCP</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I'm building -->
+  <section class="section">
+    <div>
+      <h2>What I'm building</h2>
+      <p class="section-sub">Three products, one mission: give developers real leverage when working alongside AI.</p>
+      <div class="cards">
+
+        <div class="card">
+          <div class="card-icon">⚙️</div>
+          <h3>AzDO MCP — Azure DevOps for AI agents</h3>
+          <p>A gateway that connects any AI model directly to your Azure DevOps workspace. Create tasks, review PRs, run pipelines — without leaving the conversation.</p>
+          <span class="card-badge badge-live">Live · beta</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📄</div>
+          <h3>TaskForge — AI document review</h3>
+          <p>Upload any contract, spec, or proposal. Get structured analysis, risk flags, and a plain-language breakdown — powered by frontier AI, pay per task.</p>
+          <span class="card-badge badge-live">Live · beta</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🤖</div>
+          <h3>Egrehia — the AI company operatrice</h3>
+          <p>An autonomous agent that runs the operational side of Babylon's Factor: shipping features, managing pipelines, monitoring systems, and reporting to me daily.</p>
+          <span class="card-badge badge-build">Running · internal</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">📱</div>
+          <h3>SmartApp Forge — Flutter mobile backend</h3>
+          <p>A backend that manages Flutter app builds, APK releases, and multi-tenant delivery. WorkspaceRemote is the first app built on it.</p>
+          <span class="card-badge badge-build">In progress</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🌐</div>
+          <h3>Mercury Protocol — async communication layer</h3>
+          <p>A structured protocol for AI entities to communicate, coordinate, and share context across systems. The foundation for a multi-agent operating model.</p>
+          <span class="card-badge badge-next">Next</span>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">🏗️</div>
+          <h3>BusinessApp Forge — autonomous deployment</h3>
+          <p>A system that takes an idea and deploys a production-ready application with infrastructure, CI/CD, and monitoring — fully automated.</p>
+          <span class="card-badge badge-next">Planned</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Why -->
+  <section class="section" style="padding-top: 0;">
+    <div class="why-block">
+      <p class="label" style="margin-bottom:24px;">Why this, why now</p>
+      <p>
+        <strong>AI doesn't lack intelligence.</strong> It lacks proper hands. The tools developers use today —
+        project management, CI/CD, deployment, code review — were designed for humans operating alone.
+        None of them were built expecting an AI agent to be in the loop.
+      </p>
+      <p>
+        <strong>I'm building that missing layer.</strong> Not wrappers around existing products.
+        Actual infrastructure: MCP gateways, structured communication protocols, autonomous agents
+        with operational authority. The kind of scaffolding that lets AI do real work, not just suggest it.
+      </p>
+      <p>
+        I'm doing this as a single developer, using AI to move at a pace that would otherwise require a team.
+        Babylon's Factor is the product and the proof at the same time.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Want to follow along or help?</h2>
+    <p>Everything ships on the forge. If any of this resonates — try the tools, share the page, or throw a few euros in.</p>
+    <div class="cta-actions">
+      <a href="https://51-15-214-19.nip.io/" class="btn btn-primary" target="_blank" rel="noopener">Visit the forge →</a>
+      <a href="https://51-15-214-19.nip.io/donate" class="btn btn-gold" target="_blank" rel="noopener">♥ Fund me</a>
+      <a href="https://github.com/Zer0skd" class="btn" style="background:#1e1e32;border:1px solid #2d2d4e;color:#9ca3af;" target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>© 2026 Babylon's Factor — Zero Corentin Duchaussoy</div>
+      <div style="display:flex;gap:20px;">
+        <a href="https://51-15-214-19.nip.io/">The Forge</a>
+        <a href="https://51-15-214-19.nip.io/donate">Support</a>
+        <a href="https://github.com/Zer0skd">GitHub</a>
+        <a href="mailto:hello@babylonsfactor.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
